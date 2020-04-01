@@ -1,13 +1,17 @@
-import React from 'react'
-import { Button } from 'antd'
+import * as React from 'react'
 import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <Button type="primary">Button</Button>
-    </div>
-  )
+import Counter from './container/Counter'
+// import logo from './logo.svg';
+
+class App extends React.Component {
+  public render() {
+    return (
+      <div className="App">
+        <Counter />
+      </div>
+    )
+  }
 }
 
 export default App
