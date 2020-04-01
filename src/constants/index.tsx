@@ -1,0 +1,7 @@
+export const INCREMENT = 'INCREMENT'
+export const INCREMENT_ASYNC = 'INCREMENT_ASYNC'
+export const FETCH_REQUEST = 'FETCH_REQUEST'
+
+export type INCREMENT_TYPE = typeof INCREMENT
+export type INCREMENT_ASYNC_TYPE = typeof INCREMENT_ASYNC
+export type FETCH_REQUEST_TYPE = typeof FETCH_REQUEST
