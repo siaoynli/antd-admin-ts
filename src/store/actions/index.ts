@@ -6,14 +6,14 @@
  * @Description:
  */
 
-import { DECREMENT, DECREMENT_TYPE, INCREMENT, INCREMENT_TYPE } from '../const'
+import { DECREMENT, INCREMENT } from '../const'
 
 export interface IINCREMENTAction {
-  type: INCREMENT_TYPE
+  type: string
 }
 
 export interface IDECREMENTAction {
-  type: DECREMENT_TYPE
+  type: string
 }
 
 // 增加 state 次数的方法
