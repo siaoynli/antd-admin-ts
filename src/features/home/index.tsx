@@ -9,7 +9,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Dispatch, bindActionCreators } from 'redux'
 
-import { decrement, increment } from './redux/actions'
+import { decrement, increment, incrementAsync, decrementAsync } from './redux/actions'
 
 import { Button } from 'antd'
 
@@ -20,6 +20,8 @@ interface IProps {
   value: number
   onIncrement: () => void
   onDecrement: () => void
+  onIncrementAsync: () => void
+  onDecrementAsync: () => void
 }
 
 // 使用接口代替 PropTypes 进行类型校验
@@ -31,7 +33,7 @@ class Counter extends React.Component<IProps> {
   }
 
   render(): JSX.Element {
-    const { value, onIncrement, onDecrement } = this.props
+    const { value, onIncrement, onDecrement, onIncrementAsync, onDecrementAsync } = this.props
     return (
       <div>
         Clicked: {value} times
@@ -39,6 +41,12 @@ class Counter extends React.Component<IProps> {
         <br />
         <Button onClick={onIncrement} style={{ marginRight: 20 }}>
           +
+        </Button>
+        <Button onClick={onIncrementAsync} style={{ marginRight: 20 }}>
+          异步+
+        </Button>
+        <Button onClick={onDecrementAsync} style={{ marginRight: 20 }}>
+          异步-
         </Button>
         <Button onClick={onDecrement}> - </Button>
       </div>
@@ -61,10 +69,16 @@ const mapStateToProps = (state: reducerState): { value: number } => {
 //   onIncrement: () => dispatch(increment())
 // })
 
-const mapDispatchToProps = (
-  dispatch: Dispatch
-): { onIncrement: () => void; onDecrement: () => void } =>
-  bindActionCreators({ onDecrement: decrement, onIncrement: increment }, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      onDecrement: decrement,
+      onIncrement: increment,
+      onIncrementAsync: incrementAsync,
+      onDecrementAsync: decrementAsync
+    },
+    dispatch
+  )
 
 // 使用 connect 高阶组件对 Counter 进行包裹
 export default connect(mapStateToProps, mapDispatchToProps)(Counter)

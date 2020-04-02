@@ -35,7 +35,7 @@ class User extends Component<IProps> {
         title: '姓名',
         dataIndex: 'name',
         key: 'name',
-        render: (text: string) => <a>{text}</a>
+        render: (text: string) => <Button type="link">{text}</Button>
       },
       {
         title: '用户名',
@@ -75,10 +75,14 @@ class User extends Component<IProps> {
     return (
       <div>
         <Button onClick={() => fetch_user()}>异步获取</Button>
-        <p>isFetch:{isFetch ? '是' : '否'}</p>
         {error ? `<p>${error}</p>` : ''}
-
-        <Table columns={columns} dataSource={users} loading={isFetch} />
+        <Table
+          columns={columns}
+          dataSource={users}
+          loading={isFetch}
+          pagination={false}
+          rowKey={record => record.id}
+        />
       </div>
     )
   }
