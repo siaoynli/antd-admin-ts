@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Dispatch, bindActionCreators } from 'redux'
 
-import { Button } from 'antd'
+import { Button, Table, Popconfirm, message } from 'antd'
 
 import { reducerState } from '../common/rootReducer'
 
@@ -20,19 +20,65 @@ interface IProps {
 }
 
 class User extends Component<IProps> {
+  confirm(e: any) {
+    console.log(e)
+    message.success('Click on Yes')
+  }
+
+  cancel(e: any) {
+    console.log(e)
+    message.error('Click on No')
+  }
   render() {
+    const columns = [
+      {
+        title: '姓名',
+        dataIndex: 'name',
+        key: 'name',
+        render: (text: string) => <a>{text}</a>
+      },
+      {
+        title: '用户名',
+        dataIndex: 'username',
+        key: 'username'
+      },
+      {
+        title: '邮箱',
+        dataIndex: 'email',
+        key: 'email'
+      },
+
+      {
+        title: '操作',
+        key: 'action',
+        render: (text: string, record: IUser) => (
+          <span>
+            <Button type="link" style={{ marginRight: 16 }} title={record.name}>
+              编辑
+            </Button>
+            <Popconfirm
+              title="确认要删除这条记录吗?"
+              onConfirm={this.confirm}
+              onCancel={this.cancel}
+              okText="是"
+              cancelText="否"
+            >
+              <Button type="link">删除</Button>
+            </Popconfirm>
+            ,
+          </span>
+        )
+      }
+    ]
+
     const { isFetch, error, users, fetch_user } = this.props
     return (
       <div>
-        <Button onClick={() => fetch_user()}>异步新增</Button>
+        <Button onClick={() => fetch_user()}>异步获取</Button>
         <p>isFetch:{isFetch ? '是' : '否'}</p>
         {error ? `<p>${error}</p>` : ''}
 
-        {users.map(user => (
-          <div key={user.id}>
-            {user.id}:{user.name},{user.email}
-          </div>
-        ))}
+        <Table columns={columns} dataSource={users} loading={isFetch} />
       </div>
     )
   }
