@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
@@ -9,7 +8,7 @@ import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import createSagaMiddleware from 'redux-saga'
 
-import rootReducer from './reducers'
+import rootReducer from './features/home/redux/reducers'
 // import rootSaga from './sagas'
 
 // 2：创建saga中间件

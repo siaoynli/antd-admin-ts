@@ -9,7 +9,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Dispatch, bindActionCreators } from 'redux'
 
-import { decrement, increment } from '../store/actions'
+import { decrement, increment } from './redux/actions'
 
 // 创建类型接口
 export interface IProps {

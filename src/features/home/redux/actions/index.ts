@@ -6,7 +6,7 @@
  * @Description:
  */
 
-import { DECREMENT, INCREMENT } from '../const'
+import { DECREMENT, INCREMENT } from '../constants'
 
 export interface INCREMENT_ACTION {
   type: string

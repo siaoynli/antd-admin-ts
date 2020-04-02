@@ -5,8 +5,8 @@
  * @Date: 2020-04-01 17:05:47
  * @Description:
  */
-import { INCREMENT_ACTION, DECREMENT_ACTION } from '../store/actions'
-import { DECREMENT, INCREMENT } from '../store/const'
+import { INCREMENT_ACTION, DECREMENT_ACTION } from '../actions'
+import { DECREMENT, INCREMENT } from '../constants'
 
 // 处理并返回 state
 export default (state = 0, action: INCREMENT_ACTION | DECREMENT_ACTION): number => {
