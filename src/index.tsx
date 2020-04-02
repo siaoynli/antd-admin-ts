@@ -8,22 +8,21 @@ import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import createSagaMiddleware from 'redux-saga'
 
-import rootReducer from './features/home/redux/reducers'
-// import rootSaga from './sagas'
+import rootReducer from './features/common/rootReducer'
+import rootSaga from './features/common/rootSaga'
 
 // 2：创建saga中间件
-// const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware()
 
-// const store = createStore(
-//   rootReducer,
-//   composeWithDevTools(
-//     // 3：把 sagaMiddleware 当做一个中间件，引用调试工具
-//     applyMiddleware(sagaMiddleware)
-//   )
-// )
-const store = createStore(rootReducer, composeWithDevTools())
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(
+    // 3：把 sagaMiddleware 当做一个中间件，引用调试工具
+    applyMiddleware(sagaMiddleware)
+  )
+)
 
-// sagaMiddleware.run(rootSaga)
+sagaMiddleware.run(rootSaga)
 
 ReactDOM.render(
   <React.StrictMode>

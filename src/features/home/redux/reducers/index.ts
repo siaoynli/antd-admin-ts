@@ -8,8 +8,8 @@
 import { INCREMENT_ACTION, DECREMENT_ACTION } from '../actions'
 import { DECREMENT, INCREMENT } from '../constants'
 
-// 处理并返回 state
-export default (state = 0, action: INCREMENT_ACTION | DECREMENT_ACTION): number => {
+// 处理并返回 state,number类型
+export default (state = 1, action: INCREMENT_ACTION | DECREMENT_ACTION): number => {
   switch (action.type) {
     case INCREMENT:
       return state + 1

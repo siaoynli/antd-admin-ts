@@ -2,11 +2,10 @@
  * @Author: lixiaoyun
  * @Company: http://hangzhou.com.cn
  * @Github: http://github.com/siaoynli
- * @Date: 2020-04-01 17:05:14
+ * @Date: 2020-04-02 10:55:38
  * @Description:
  */
-
-import { DECREMENT, INCREMENT } from '../constants'
+import { DECREMENT, INCREMENT } from './constants'
 
 export interface INCREMENT_ACTION {
   type: string
