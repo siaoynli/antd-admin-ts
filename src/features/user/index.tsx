@@ -8,27 +8,30 @@ import { Button, Table, Popconfirm, message } from 'antd'
 import { reducerState } from '../common/rootReducer'
 
 import { UserState } from './redux/reducers'
-import { fetch_user } from './redux/actions'
+import { fetch_user, delete_user } from './redux/actions'
 
 import { IUser } from './models'
 
 interface IProps {
   isFetch: boolean
-  error: string
+  status: boolean
+  messages: string
   users: IUser[]
   fetch_user: () => void
+  delete_user: (user: IUser) => void
 }
 
 class User extends Component<IProps> {
-  confirm(e: any) {
-    console.log(e)
-    message.success('Click on Yes')
+  delete = (user: IUser) => {
+    const { delete_user } = this.props
+    delete_user(user)
   }
 
-  cancel(e: any) {
-    console.log(e)
-    message.error('Click on No')
+  componentDidMount() {
+    const { fetch_user } = this.props
+    fetch_user()
   }
+
   render() {
     const columns = [
       {
@@ -58,8 +61,9 @@ class User extends Component<IProps> {
             </Button>
             <Popconfirm
               title="确认要删除这条记录吗?"
-              onConfirm={this.confirm}
-              onCancel={this.cancel}
+              onConfirm={() => {
+                this.delete(record)
+              }}
               okText="是"
               cancelText="否"
             >
@@ -71,11 +75,11 @@ class User extends Component<IProps> {
       }
     ]
 
-    const { isFetch, error, users, fetch_user } = this.props
+    const { isFetch, status, users, messages } = this.props
     return (
       <div>
-        <Button onClick={() => fetch_user()}>异步获取</Button>
-        {error ? `<p>${error}</p>` : ''}
+        {!status ? message.error(messages) : ''}
+        {messages ? message.success(messages) : ''}
         <Table
           columns={columns}
           dataSource={users}
@@ -91,13 +95,14 @@ class User extends Component<IProps> {
 const mapStateToProps = (state: reducerState): UserState => {
   return {
     isFetch: state.userReducer.isFetch,
-    error: state.userReducer.error,
-    users: state.userReducer.users
+    status: state.userReducer.status,
+    messages: state.userReducer.messages,
+    users: state.userReducer.lists.data
   }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({ fetch_user: fetch_user }, dispatch)
+  bindActionCreators({ fetch_user, delete_user }, dispatch)
 
 // 使用 connect 高阶组件对 Counter 进行包裹
 export default connect(mapStateToProps, mapDispatchToProps)(User)

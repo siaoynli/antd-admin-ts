@@ -9,33 +9,23 @@
 import { call, takeEvery, put } from 'redux-saga/effects'
 import axios from '../../common/axios'
 
-import { FETCH_FAIL, FETCH_REQUEST, FETCH_SUCCESS } from '../../common/constants'
+import { FETCH_USER_FAIL, FETCH_USER_REQUEST, FETCH_USER_SUCCESS } from '../redux/constants'
 
 function* fetch_user() {
   try {
     const users = yield call(axios.get, 'https://jsonplaceholder.typicode.com/users')
 
-    yield put({ type: FETCH_SUCCESS, payload: users.data })
-  } catch (e) {
-    yield put({ type: FETCH_FAIL, errors: e })
+    yield put({ type: FETCH_USER_SUCCESS, payload: users.data })
+  } catch (error) {
+    yield put({ type: FETCH_USER_FAIL, errors: error })
   }
 }
 
-function* fetch_todo() {
-  const todos = yield call(axios.get, 'https://jsonplaceholder.typicode.com/todos')
-
-  console.log(todos)
-}
-
 function* user() {
-  yield takeEvery(FETCH_REQUEST, fetch_user)
-}
-
-function* todo() {
-  yield takeEvery('FETCH_TODO', fetch_todo)
+  yield takeEvery(FETCH_USER_REQUEST, fetch_user)
 }
 
 // 使用数组导出
-const rootUser = [user(), todo()]
+const fetchUser = [user()]
 
-export default rootUser
+export default fetchUser

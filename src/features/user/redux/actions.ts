@@ -8,17 +8,31 @@
 
 import { IUser } from '../models'
 
-import { FETCH_REQUEST } from '../../common/constants'
+import { FETCH_USER_REQUEST, DELETE_USER_REQUEST } from './constants'
 
 //action  返回数据结构 数据结构
 export interface USER_ACTION_STATE {
   type: string
   payload: IUser[]
+  id: number
+  messages: string
   errors: string
 }
 
 export const fetch_user = (): { type: string } => {
   return {
-    type: FETCH_REQUEST
+    type: FETCH_USER_REQUEST
+  }
+}
+
+export interface DELETE_USER_ACTION {
+  type: string
+  id: number
+}
+
+export const delete_user = (user: IUser): DELETE_USER_ACTION => {
+  return {
+    type: DELETE_USER_REQUEST,
+    id: user.id
   }
 }

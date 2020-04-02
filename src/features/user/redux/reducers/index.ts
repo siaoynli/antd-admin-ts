@@ -8,45 +8,75 @@
 
 import { USER_ACTION_STATE } from '../actions'
 
-import { FETCH_REQUEST, FETCH_SUCCESS, FETCH_FAIL } from '../../../common/constants'
+import {
+  FETCH_USER_REQUEST,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_FAIL,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS
+} from '../constants'
 
 import { IUser } from '../../models'
 
-export interface UserState {
-  isFetch: boolean
-  error: string
-  users: IUser[]
+interface UserData {
+  data: IUser[]
 }
 
-const users: IUser[] = []
+export interface UserState {
+  isFetch: boolean
+  status: boolean
+  messages: string
+  lists: UserData
+}
+
+let users: IUser[] = []
 
 export const userReducer = (
   state = {
     isFetch: false,
-    error: '',
-    users: users
+    status: false,
+    messages: '',
+    lists: { data: users }
   },
   action: USER_ACTION_STATE
 ): UserState => {
   switch (action.type) {
-    case FETCH_REQUEST:
+    case FETCH_USER_REQUEST:
       return (state = {
         isFetch: true,
-        error: '',
-        users: []
+        status: false,
+        messages: '',
+        lists: { data: users }
       })
-    case FETCH_SUCCESS:
-      console.log(action.payload)
+    case FETCH_USER_SUCCESS:
+      users = action.payload
       return (state = {
         isFetch: false,
-        error: '',
-        users: action.payload
+        status: true,
+        messages: '',
+        lists: { data: users }
       })
-    case FETCH_FAIL:
+    case FETCH_USER_FAIL:
       return (state = {
         isFetch: false,
-        error: action.errors,
-        users: []
+        messages: action.errors,
+        status: false,
+        lists: { data: users }
+      })
+    case DELETE_USER_REQUEST:
+      return (state = {
+        isFetch: true,
+        status: false,
+        messages: '',
+        lists: { data: users }
+      })
+    case DELETE_USER_SUCCESS:
+      users = users.filter((user: IUser) => user.id !== action.id)
+      return (state = {
+        isFetch: false,
+        status: true,
+        messages: '删除成功',
+        lists: { data: users }
       })
     default:
       return state
