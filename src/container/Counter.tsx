@@ -1,9 +1,15 @@
+/*
+ * @Author: lixiaoyun
+ * @Company: http://hangzhou.com.cn
+ * @Github: http://github.com/siaoynli
+ * @Date: 2020-04-01 17:08:29
+ * @Description:
+ */
 import React from 'react'
 import { connect } from 'react-redux'
 import { Dispatch, bindActionCreators } from 'redux'
 
 import { decrement, increment } from '../store/actions'
-import { StoreState } from '../types'
 
 // 创建类型接口
 export interface IProps {
@@ -39,7 +45,7 @@ class Counter extends React.PureComponent<IProps> {
 // 将 reducer 中的状态插入到组件的 props 中
 // 下面是单个reducer的时候，多个的时候需要选传入哪个reducer
 // const { test, count } = state
-const mapStateToProps = (state: StoreState): { value: number } => ({
+const mapStateToProps = (state: number): { value: number } => ({
   value: state
 })
 
