@@ -13,9 +13,8 @@ import { FETCH_USER_FAIL, FETCH_USER_REQUEST, FETCH_USER_SUCCESS } from '../redu
 
 function* fetch_user() {
   try {
-    const users = yield call(axios.get, 'https://jsonplaceholder.typicode.com/users')
-
-    yield put({ type: FETCH_USER_SUCCESS, payload: users.data })
+    const response = yield call(axios.get, 'http://2020.yxqtbbs.com/api/v1/top/users')
+    yield put({ type: FETCH_USER_SUCCESS, payload: response.data })
   } catch (error) {
     yield put({ type: FETCH_USER_FAIL, errors: error })
   }

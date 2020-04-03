@@ -6,15 +6,7 @@
  * @Description:
  */
 
-/*
- * @Author: lixiaoyun
- * @Company: http://hangzhou.com.cn
- * @Github: http://github.com/siaoynli
- * @Date: 2020-04-02 14:04:08
- * @Description:
- */
-
-import { call, takeEvery, put, delay } from 'redux-saga/effects'
+import { takeEvery, put, delay } from 'redux-saga/effects'
 import axios from '../../common/axios'
 
 import { DELETE_USER_REQUEST, DELETE_USER_SUCCESS, DELETE_USER_FAIL } from '../redux/constants'
@@ -24,11 +16,10 @@ import { DELETE_USER_ACTION } from '../redux/actions'
 function* delete_user(action: DELETE_USER_ACTION) {
   try {
     //模拟异步请求
-    yield delay(1000)
+    yield delay(500)
+    console.log('delete:', action.user)
 
-    console.log('delete:', action.id)
-
-    yield put({ type: DELETE_USER_SUCCESS, id: action.id })
+    yield put({ type: DELETE_USER_SUCCESS, user: action.user })
   } catch (error) {
     yield put({ type: DELETE_USER_FAIL, errors: error })
   }

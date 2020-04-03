@@ -13,13 +13,15 @@ import { FETCH_USER_REQUEST, DELETE_USER_REQUEST } from './constants'
 //action  返回数据结构 数据结构
 export interface USER_ACTION_STATE {
   type: string
-  payload: IUser[]
-  id: number
-  messages: string
-  errors: string
+  payload: { state: number; list: { data: IUser[] } }
+  user: IUser
 }
 
-export const fetch_user = (): { type: string } => {
+export interface FETCH_USER_ACTION {
+  type: string
+}
+
+export const fetch_user = (): FETCH_USER_ACTION => {
   return {
     type: FETCH_USER_REQUEST
   }
@@ -27,12 +29,12 @@ export const fetch_user = (): { type: string } => {
 
 export interface DELETE_USER_ACTION {
   type: string
-  id: number
+  user: IUser
 }
 
 export const delete_user = (user: IUser): DELETE_USER_ACTION => {
   return {
     type: DELETE_USER_REQUEST,
-    id: user.id
+    user: user
   }
 }

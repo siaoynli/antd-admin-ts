@@ -3,20 +3,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Dispatch, bindActionCreators } from 'redux'
 
-import { Button, Table, Popconfirm, message } from 'antd'
+import { Button, Table, Popconfirm } from 'antd'
 
 import { reducerState } from '../common/rootReducer'
-
-import { UserState } from './redux/reducers'
 import { fetch_user, delete_user } from './redux/actions'
 
+import { UserState } from './redux/reducers'
 import { IUser } from './models'
 
 interface IProps {
   isFetch: boolean
-  status: boolean
-  messages: string
-  users: IUser[]
+  lists: { data: IUser[] }
   fetch_user: () => void
   delete_user: (user: IUser) => void
 }
@@ -32,18 +29,13 @@ class User extends Component<IProps> {
     fetch_user()
   }
 
-  render() {
-    const columns = [
+  getColumns() {
+    return [
       {
         title: '姓名',
         dataIndex: 'name',
         key: 'name',
         render: (text: string) => <Button type="link">{text}</Button>
-      },
-      {
-        title: '用户名',
-        dataIndex: 'username',
-        key: 'username'
       },
       {
         title: '邮箱',
@@ -53,7 +45,8 @@ class User extends Component<IProps> {
 
       {
         title: '操作',
-        key: 'action',
+        width: 200,
+        key: 'operation',
         render: (text: string, record: IUser) => (
           <span>
             <Button type="link" style={{ marginRight: 16 }} title={record.name}>
@@ -67,22 +60,25 @@ class User extends Component<IProps> {
               okText="是"
               cancelText="否"
             >
-              <Button type="link">删除</Button>
+              <Button type="primary" loading={record.isDelete} danger>
+                删除
+              </Button>
             </Popconfirm>
-            ,
           </span>
         )
       }
     ]
+  }
 
-    const { isFetch, status, users, messages } = this.props
+  render() {
+    const columns = this.getColumns()
+    const { isFetch, lists } = this.props
     return (
       <div>
-        {!status ? message.error(messages) : ''}
-        {messages ? message.success(messages) : ''}
         <Table
+          bordered
           columns={columns}
-          dataSource={users}
+          dataSource={lists.data}
           loading={isFetch}
           pagination={false}
           rowKey={record => record.id}
@@ -95,9 +91,7 @@ class User extends Component<IProps> {
 const mapStateToProps = (state: reducerState): UserState => {
   return {
     isFetch: state.userReducer.isFetch,
-    status: state.userReducer.status,
-    messages: state.userReducer.messages,
-    users: state.userReducer.lists.data
+    lists: state.userReducer.lists
   }
 }
 
